@@ -1,0 +1,19 @@
+{
+  "name": "discord-twitter-link-fixer",
+  "version": "1.0.0",
+  "description": "a discord bot to change x/twitter links to include fx so that they are embeded properly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon .index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "keywords": []
+}
