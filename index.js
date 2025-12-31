@@ -11,17 +11,38 @@ client.once(Events.ClientReady, (client) => {
   console.log('logged on: ', client.user.tag);
 });
 
+const urlMap = {
+  twitter: {
+    link: 'https://x.com',
+    fix: 'https://fxtwitter.com'
+  },
+  reddit: {
+    link: 'https://www.reddit.com',
+    fix: 'https://vxreddit.com'
+  }
+};
 client.on('messageCreate', (message) => {
   if (message.author.bot) return;
 
-  const { content } = message;
-  if (content.includes('https://x.com')) {
-    const splitContent = content.split(' ');
-    const url = splitContent.findIndex((url) => url.startsWith('https://x.com'));
-    splitContent[url] = splitContent[url].replace('https://x.com', 'https://fxtwitter.com');
-    const fixedMessage = splitContent.join(' ');
+  const urlChange = (urlSets, msgContent) => {
+    const splitContent = msgContent.split(' ');
+    const urlIndex = splitContent.findIndex((url) => url.startsWith(urlSets.link));
+    splitContent[urlIndex] = splitContent[urlIndex].replace(urlSets.link, urlSets.fix);
+    return splitContent.join(' ');
+  };
+
+  const sendMessage = (fixedMessage) => {
     message.delete();
     message.channel.send(`${message.author} sent: ${fixedMessage}`);
+  };
+  const { content } = message;
+  if (content.includes('https://x.com')) {
+    const fixedMessage = urlChange(urlMap.twitter, content);
+    sendMessage(fixedMessage);
+  }
+  if (content.includes('https://www.reddit.com')) {
+    const fixedMessage = urlChange(urlMap.reddit, content);
+    sendMessage(fixedMessage);
   }
 });
 
